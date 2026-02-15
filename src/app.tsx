@@ -1,7 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router";
+
+import { CreateRoom } from "./pages/create-room";
+import { RoomDetails } from "./pages/room-details";
+
 export function App() {
   return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<CreateRoom />} index />
+        <Route element={<RoomDetails />} path="/room" />
+      </Routes>
+    </BrowserRouter>
   );
 }
