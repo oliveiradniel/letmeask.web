@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { type AxiosResponse } from "axios";
 
 import { env } from "@/config/env";
 
@@ -9,41 +9,38 @@ export const httpClient = axios.create({
 });
 
 export class HttpClient implements IHttpClient {
-  async get<TResponseType>(
+  get<TResponseType>(
     path: string,
     config?: HttpRequestConfig
-  ): Promise<TResponseType> {
-    const response = await httpClient.get<TResponseType>(path, config);
-
-    return response.data;
+  ): Promise<AxiosResponse<TResponseType>> {
+    return httpClient.get<TResponseType>(path, config);
   }
 
-  async post<TResponseType>(
+  post<TResponseType>(
     path: string,
     body?: unknown,
     config?: HttpRequestConfig
-  ): Promise<TResponseType> {
-    const response = await httpClient.post<TResponseType>(path, body, {
+  ): Promise<AxiosResponse<TResponseType>> {
+    return httpClient.post<TResponseType>(path, body, {
       ...config,
     });
-
-    return response.data;
   }
 
-  async patch<TResponseType>(
+  patch<TResponseType>(
     path: string,
     body: unknown,
     config?: HttpRequestConfig
-  ): Promise<TResponseType> {
-    const response = await httpClient.patch<TResponseType>(path, body, {
+  ): Promise<AxiosResponse<TResponseType>> {
+    return httpClient.patch<TResponseType>(path, body, {
       ...config,
     });
-
-    return response.data;
   }
 
-  async delete(path: string, config?: HttpRequestConfig): Promise<void> {
-    await httpClient.delete<void>(path, {
+  delete(
+    path: string,
+    config?: HttpRequestConfig
+  ): Promise<AxiosResponse<void>> {
+    return httpClient.delete<void>(path, {
       ...config,
     });
   }
