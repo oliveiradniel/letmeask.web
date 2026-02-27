@@ -36,7 +36,8 @@
         "form",
         "service-layer",
         "layout",
-        "tooling"
+        "tooling",
+        "utils"
       ]
     ],
     "subject-case": [2, "never", ["start-case", "pascal-case", "upper-case"]],
