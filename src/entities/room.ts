@@ -2,5 +2,6 @@ export interface Room {
   id: string;
   name: string;
   description: string | null;
-  createdAt: Date;
+  createdAt: string;
+  questionCount: number;
 }
