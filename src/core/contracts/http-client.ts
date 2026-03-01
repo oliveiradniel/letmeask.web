@@ -11,15 +11,15 @@ export abstract class IHttpClient {
     config?: HttpRequestConfig
   ): Promise<AxiosResponse<TResponseType>>;
 
-  abstract post<TResponseType>(
+  abstract post<TBody, TResponseType>(
     path: string,
-    body?: unknown,
+    body?: TBody,
     config?: HttpRequestConfig
   ): Promise<AxiosResponse<TResponseType>>;
 
-  abstract patch<TResponseType>(
+  abstract patch<TBody, TResponseType>(
     path: string,
-    body?: unknown,
+    body?: TBody,
     config?: HttpRequestConfig
   ): Promise<AxiosResponse<TResponseType>>;
 
