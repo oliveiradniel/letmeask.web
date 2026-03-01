@@ -1,13 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useQueryClient } from "@tanstack/react-query";
-
+import { AxiosError } from "axios";
 import { ArrowRight } from "lucide-react";
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { Link } from "react-router";
-
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,11 +35,14 @@ export function CreateRoom() {
   const { rooms, isFetchingRooms } = useListRooms();
   const { createRoom, isCreatingRoom } = useCreateRoom();
 
+  const [errorName, setErrorName] = useState<string | null>(null);
+
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(CreateRoomSchema),
   });
 
+  const errorNameMessage = form.formState.errors.name?.message || errorName;
   const formDisabled = !form.formState.isValid || isCreatingRoom;
 
   const handleSubmit = form.handleSubmit(async (data: CreateRoomData) => {
@@ -55,6 +56,16 @@ export function CreateRoom() {
 
       form.reset();
     } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+
+        if (errorMessage === "This name already in use.") {
+          setErrorName("Este nome já está em uso.");
+        }
+
+        return;
+      }
+
       console.log(`Error: ${error}`);
     }
   });
@@ -87,10 +98,12 @@ export function CreateRoom() {
                     aria-invalid={!!form.formState.errors.name}
                     id="name"
                     placeholder="Digite o nome da sala"
-                    {...form.register("name")}
+                    {...form.register("name", {
+                      onChange: () => setErrorName(null),
+                    })}
                   />
 
-                  <FieldError>{form.formState.errors.name?.message}</FieldError>
+                  <FieldError>{errorNameMessage}</FieldError>
                 </Field>
 
                 <Field>
