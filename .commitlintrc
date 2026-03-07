@@ -25,6 +25,7 @@
       "always",
       [
         "rooms",
+        "questions",
         "infra",
         "env",
         "data",
