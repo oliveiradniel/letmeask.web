@@ -55,7 +55,7 @@ export function RoomList() {
               <Link
                 className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent/50"
                 key={room.id}
-                to={`/rooms/${room.id}`}
+                to={`/room/${room.id}`}
               >
                 <div className="flex flex-1 flex-col gap-1">
                   <h3 className="font-medium">{room.name}</h3>
@@ -66,7 +66,7 @@ export function RoomList() {
                     </Badge>
 
                     <Badge className="text-xs" variant="secondary">
-                      {room.questionCount} pergunta(s)
+                      {room.questionCount ?? 0} pergunta(s)
                     </Badge>
                   </div>
                 </div>
