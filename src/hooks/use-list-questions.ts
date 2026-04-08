@@ -13,7 +13,7 @@ export type QuestionQueryData = Question & { _isGeneratingAnswer?: boolean };
 export function useListQuestions(roomId: string) {
   const roomsService = makeRoomsService();
 
-  const { data, isFetching } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: QUESTIONS_QUERY_KEY(roomId),
     queryFn: async () => {
       const questions = await roomsService.listQuestions(roomId);
@@ -24,6 +24,6 @@ export function useListQuestions(roomId: string) {
 
   return {
     questions: data ?? [],
-    isFetchingQuestions: isFetching,
+    isLoadingQuestions: isPending,
   };
 }
