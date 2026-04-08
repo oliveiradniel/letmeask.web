@@ -21,6 +21,9 @@ export function QuestionForm({ roomId }: { roomId: string }) {
 
   const form = useForm<CreateQuestionForm>({
     resolver: zodResolver(CreateQuestionSchema),
+    defaultValues: {
+      question: "",
+    },
   });
 
   async function handleCreateQuestion(data: CreateQuestionForm) {
@@ -28,6 +31,8 @@ export function QuestionForm({ roomId }: { roomId: string }) {
 
     form.reset();
   }
+
+  form.watch("question");
 
   return (
     <Card>
