@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { makeRoomsService } from "@/core/factories/make-rooms-service";
+import { makeQuestionsService } from "@/core/factories/make-questions-service";
 
 import type { CreateQuestionPayload } from "@/schemas/create-question-schema";
 import {
@@ -11,11 +11,11 @@ import {
 export function useCreateQuestion() {
   const queryClient = useQueryClient();
 
-  const roomsService = makeRoomsService();
+  const questionsService = makeQuestionsService();
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (data: CreateQuestionPayload) =>
-      roomsService.createQuestion(data),
+      questionsService.create(data),
     onMutate: async ({ roomId, question }) => {
       const queryKey = QUESTIONS_QUERY_KEY(roomId);
 
