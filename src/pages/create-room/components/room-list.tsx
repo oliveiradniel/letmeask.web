@@ -13,7 +13,7 @@ import { useListRooms } from "@/hooks/use-list-rooms";
 import { formatTimeToNow } from "@/utils/format-relative-date";
 
 export function RoomList() {
-  const { rooms, isFetchingRooms } = useListRooms();
+  const { rooms, isLoadingRooms } = useListRooms();
 
   return (
     <Card>
@@ -26,7 +26,7 @@ export function RoomList() {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        {isFetchingRooms &&
+        {isLoadingRooms &&
           Array.from({ length: 5 }).map(() => (
             <div
               className="flex items-center justify-between rounded-lg border p-3 hover:bg-accent/50"
@@ -49,7 +49,7 @@ export function RoomList() {
             </div>
           ))}
 
-        {!isFetchingRooms &&
+        {!isLoadingRooms &&
           rooms.map((room) => {
             return (
               <Link
