@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 import { CreateRoom } from "./pages/create-room";
+import { RecordRoomAudio } from "./pages/record-room-audio";
 import { RoomDetails } from "./pages/room-details";
 
 export function App() {
@@ -20,6 +21,7 @@ export function App() {
         <Routes>
           <Route element={<CreateRoom />} index />
           <Route element={<RoomDetails />} path="/room/:id" />
+          <Route element={<RecordRoomAudio />} path="/room/:id/audio" />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
