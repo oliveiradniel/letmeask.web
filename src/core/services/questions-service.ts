@@ -10,10 +10,15 @@ export class QuestionsService implements IQuestionsService {
     this.httpClient = httpClient;
   }
 
-  async create({
-    roomId,
-    question
-  }: CreateQuestionPayload): Promise<Question> {
+  async list(roomId: string): Promise<Question[]> {
+    const { data } = await this.httpClient.get<Question[]>(
+      `/rooms/${roomId}/questions`
+    );
+
+    return data;
+  }
+
+  async create({ roomId, question }: CreateQuestionPayload): Promise<Question> {
     const { data: createdQuestion } = await this.httpClient.post<
       Omit<CreateQuestionPayload, "roomId">,
       Question

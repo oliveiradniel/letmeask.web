@@ -2,9 +2,9 @@ import { ArrowLeft, CirclePlayIcon, CircleStopIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { useUploadAudio } from "@/hooks/use-upload-audio";
 import { AudioSchema } from "@/schemas/audio-schema";
-import { Spinner } from "@/components/ui/spinner";
 
 export function RecordRoomAudio() {
   const { id } = useParams<{ id: string }>();
@@ -99,44 +99,45 @@ export function RecordRoomAudio() {
       recorder.current?.stop();
 
       createRecorder(audio);
-    }, 5000)
+    }, 5000);
   }
 
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-8">
       {isRecording ? (
-        <div className="flex items-center gap-2"><div className="size-2 bg-green-600 rounded-full animate-pulse" /><span>Gravando...</span></div>
+        <div className="flex items-center gap-2">
+          <div className="size-2 animate-pulse rounded-full bg-green-600" />
+          <span>Gravando...</span>
+        </div>
       ) : (
         <span>Inicie uma gravação para esta sala.</span>
       )}
 
       <div className="flex items-center gap-2">
-        <Button variant='outline' onClick={() => navigate(-1)}><ArrowLeft /> Voltar para a sala</Button>
+        <Button onClick={() => navigate(-1)} variant="outline">
+          <ArrowLeft /> Voltar para a sala
+        </Button>
 
         {isRecording ? (
           <Button onClick={stopRecording}>
             <CircleStopIcon className="text-destructive" /> Parar gravação
           </Button>
         ) : (
-          <Button
-            disabled={isUploadingAudio}
-            onClick={startRecording}>
-              {isUploadingAudio ? (
-                <>
-                  <Spinner />
-                  Enviando gravação
-                </>
-              ) : (
-                <>
+          <Button disabled={isUploadingAudio} onClick={startRecording}>
+            {isUploadingAudio ? (
+              <>
+                <Spinner />
+                Enviando gravação
+              </>
+            ) : (
+              <>
                 <CirclePlayIcon className="text-green-600" />
                 Iniciar gravação
-                </>
-              )
-            }
+              </>
+            )}
           </Button>
         )}
       </div>
-
     </div>
   );
 }

@@ -1,6 +1,4 @@
-import type { Question } from "@/entities/question";
 import type { Room } from "@/entities/room";
-import type { CreateQuestionPayload } from "@/schemas/create-question-schema";
 import type { CreateRoomData } from "@/schemas/create-room-schema";
 import type { IHttpClient } from "../contracts/http-client";
 import type { IRoomsService } from "../contracts/rooms-service";
@@ -18,14 +16,6 @@ export class RoomsService implements IRoomsService {
     return data;
   }
 
-  async listQuestions(roomId: string): Promise<Question[]> {
-    const { data } = await this.httpClient.get<Question[]>(
-      `/rooms/${roomId}/questions`
-    );
-
-    return data;
-  }
-
   async create(data: CreateRoomData): Promise<Room> {
     const { data: createdRoom } = await this.httpClient.post<
       CreateRoomData,
@@ -33,19 +23,5 @@ export class RoomsService implements IRoomsService {
     >("/rooms", data);
 
     return createdRoom;
-  }
-
-  async createQuestion({
-    roomId,
-    question,
-  }: CreateQuestionPayload): Promise<Question> {
-    const { data: createdQuestion } = await this.httpClient.post<
-      Omit<CreateQuestionPayload, "roomId">,
-      Question
-    >(`/rooms/${roomId}/questions`, {
-      question,
-    });
-
-    return createdQuestion;
   }
 }
