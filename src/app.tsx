@@ -1,20 +1,14 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 
 import { BrowserRouter, Route, Routes } from "react-router";
+
+import { queryClient } from "./core/query-client";
 
 import { CreateRoom } from "./pages/create-room";
 import { RecordRoomAudio } from "./pages/record-room-audio";
 import { RoomDetails } from "./pages/room-details";
 
 export function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        refetchOnWindowFocus: false,
-      },
-    },
-  });
-
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
