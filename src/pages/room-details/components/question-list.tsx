@@ -1,3 +1,6 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useListQuestions } from "@/hooks/use-list-questions";
 import { QuestionItem } from "./question-item";
@@ -7,7 +10,9 @@ interface QuestionListProps {
 }
 
 export function QuestionList({ roomId }: QuestionListProps) {
-  const { questions, isLoadingQuestions } = useListQuestions(roomId);
+  const navigate = useNavigate();
+
+  const { questions, isLoadingQuestions, error } = useListQuestions(roomId);
 
   const getHeadingText = () => {
     if (isLoadingQuestions) {
@@ -18,6 +23,16 @@ export function QuestionList({ roomId }: QuestionListProps) {
     }
     return "Perguntas & Respostas";
   };
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Não foi possível encontrar a sala.");
+
+      navigate("/", {
+        state: { toastMessage: "Não foi possível encontrar a sala." },
+      });
+    }
+  }, [error, navigate]);
 
   return (
     <div className="space-y-6">

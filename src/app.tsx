@@ -1,9 +1,8 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 
 import { BrowserRouter, Route, Routes } from "react-router";
-
+import { Toaster } from "sonner";
 import { queryClient } from "./core/query-client";
-
 import { CreateRoom } from "./pages/create-room";
 import { RecordRoomAudio } from "./pages/record-room-audio";
 import { RoomDetails } from "./pages/room-details";
@@ -18,6 +17,8 @@ export function App() {
           <Route element={<RecordRoomAudio />} path="/room/:id/audio" />
         </Routes>
       </BrowserRouter>
+
+      <Toaster />
     </QueryClientProvider>
   );
 }

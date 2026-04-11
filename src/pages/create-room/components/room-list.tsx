@@ -65,7 +65,8 @@ export function RoomList() {
                   !room._isCreating && "hover:bg-accent/50"
                 )}
                 key={room.id}
-                to={`/room/${room.id}`}
+                state={{}}
+                to={room._isCreating ? "#" : `/room/${room.id}`}
               >
                 <div className="flex flex-1 flex-col gap-1">
                   <div className="flex items-center gap-2">

@@ -13,7 +13,7 @@ export type QuestionQueryData = Question & { _isGeneratingAnswer?: boolean };
 export function useListQuestions(roomId: string) {
   const questionsService = makeQuestionsService();
 
-  const { data, isPending } = useQuery({
+  const { data, isPending, error } = useQuery({
     queryKey: QUESTIONS_QUERY_KEY(roomId),
     queryFn: async () => {
       const questions = await questionsService.list(roomId);
@@ -25,5 +25,6 @@ export function useListQuestions(roomId: string) {
   return {
     questions: data ?? [],
     isLoadingQuestions: isPending,
+    error,
   };
 }

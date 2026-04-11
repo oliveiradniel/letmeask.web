@@ -1,11 +1,20 @@
 import { ArrowLeft, Radio } from "lucide-react";
-import { Link, Navigate, useParams } from "react-router";
+import { useEffect } from "react";
+import { Link, Navigate, useLocation, useParams } from "react-router";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { QuestionForm } from "./components/question-form";
 import { QuestionList } from "./components/question-list";
 
 export function RoomDetails() {
   const params = useParams<{ id: string }>();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.toastMessage) {
+      toast.error(location.state.toastMessage);
+    }
+  }, [location.state]);
 
   if (!params.id) {
     return <Navigate replace to="/" />;
