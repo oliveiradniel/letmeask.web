@@ -14,8 +14,7 @@ export function useCreateQuestion() {
   const questionsService = makeQuestionsService();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: CreateQuestionPayload) =>
-      questionsService.create(data),
+    mutationFn: (data: CreateQuestionPayload) => questionsService.create(data),
     onMutate: async ({ roomId, question }) => {
       const queryKey = QUESTIONS_QUERY_KEY(roomId);
 
