@@ -41,7 +41,8 @@ export function QuestionItem({ question }: { question: QuestionQueryData }) {
                   </div>
                 ) : (
                   <p className="whitespace-pre-line text-sm leading-relaxed">
-                    {question.answer}
+                    {question.answer ??
+                      "Não há resposta para esta pergunta no momento."}
                   </p>
                 )}
               </div>

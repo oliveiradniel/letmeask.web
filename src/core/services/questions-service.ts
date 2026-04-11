@@ -12,7 +12,7 @@ export class QuestionsService implements IQuestionsService {
 
   async list(roomId: string): Promise<Question[]> {
     const { data } = await this.httpClient.get<Question[]>(
-      `/rooms/${roomId}/questions`
+      `questions/rooms/${roomId}`
     );
 
     return data;

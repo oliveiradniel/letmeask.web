@@ -34,6 +34,8 @@ export function CreateRoomForm() {
     resolver: zodResolver(CreateRoomSchema),
   });
 
+  form.watch("name");
+
   const errorNameMessage = form.formState.errors.name?.message || errorName;
   const formDisabled = !form.formState.isValid || isCreatingRoom;
 
