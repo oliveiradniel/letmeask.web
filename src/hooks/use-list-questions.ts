@@ -8,7 +8,10 @@ export const QUESTIONS_QUERY_KEY = (roomId: string) => {
   return ["question", "list", roomId];
 };
 
-export type QuestionQueryData = Question & { _isGeneratingAnswer?: boolean };
+export type QuestionQueryData = Question & {
+  _isGeneratingAnswer?: boolean;
+  _hasError?: boolean;
+};
 
 export function useListQuestions(roomId: string) {
   const questionsService = makeQuestionsService();

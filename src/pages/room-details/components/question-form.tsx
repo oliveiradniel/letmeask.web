@@ -27,9 +27,9 @@ export function QuestionForm({ roomId }: { roomId: string }) {
   });
 
   async function handleCreateQuestion(data: CreateQuestionForm) {
-    await createQuestion({ ...data, roomId });
-
     form.reset();
+
+    await createQuestion({ data: { ...data, roomId } });
   }
 
   form.watch("question");

@@ -5,7 +5,10 @@ import type { Room } from "@/entities/room";
 
 export const ROOMS_QUERY_KEY = ["room", "list"];
 
-export type RoomQueryData = Room & { _isCreating: boolean; _hasError: boolean };
+export type RoomQueryData = Room & {
+  _isCreating?: boolean;
+  _hasError?: boolean;
+};
 
 export function useListRooms() {
   const roomsService = makeRoomsService();

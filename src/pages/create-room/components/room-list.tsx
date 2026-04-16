@@ -123,35 +123,33 @@ export function RoomList() {
                 </div>
 
                 {room._hasError && (
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-1">
-                      <Button
-                        onClick={() => handleWithRoomCreationReversal(room.id)}
-                        size="icon-sm"
-                        title="Cancelar"
-                        variant="outline"
-                      >
-                        <XIcon />
-                      </Button>
-                      <Button
-                        className="hover:bg-destructive/50!"
-                        disabled={isCreatingRoom}
-                        onClick={() =>
-                          createRoom({
-                            data: {
-                              name: room.name,
-                              description: room.description,
-                            },
-                            tempId: room.id,
-                          })
-                        }
-                        size="icon-sm"
-                        title="Tentar novamente"
-                        variant="destructive"
-                      >
-                        <RefreshCw />
-                      </Button>
-                    </div>
+                  <div className="flex items-center justify-end gap-2">
+                    <Button
+                      onClick={() => handleWithRoomCreationReversal(room.id)}
+                      size="icon-sm"
+                      title="Cancelar"
+                      variant="outline"
+                    >
+                      <XIcon />
+                    </Button>
+                    <Button
+                      className="hover:bg-destructive/50!"
+                      disabled={isCreatingRoom}
+                      onClick={() =>
+                        createRoom({
+                          data: {
+                            name: room.name,
+                            description: room.description,
+                          },
+                          tempId: room.id,
+                        })
+                      }
+                      size="icon-sm"
+                      title="Tentar novamente"
+                      variant="destructive"
+                    >
+                      <RefreshCw />
+                    </Button>
                   </div>
                 )}
               </Link>

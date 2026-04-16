@@ -19,6 +19,8 @@ export class QuestionsService implements IQuestionsService {
   }
 
   async create({ roomId, question }: CreateQuestionPayload): Promise<Question> {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     const { data: createdQuestion } = await this.httpClient.post<
       Omit<CreateQuestionPayload, "roomId">,
       Question

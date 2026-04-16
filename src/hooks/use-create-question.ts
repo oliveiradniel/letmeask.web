@@ -8,34 +8,54 @@ import {
   type QuestionQueryData,
 } from "./use-list-questions";
 
+interface CreateQuestionParams {
+  data: CreateQuestionPayload;
+  tempId?: string;
+}
+
 export function useCreateQuestion() {
   const queryClient = useQueryClient();
 
   const questionsService = makeQuestionsService();
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (data: CreateQuestionPayload) => questionsService.create(data),
-    onMutate: async ({ roomId, question }) => {
-      const queryKey = QUESTIONS_QUERY_KEY(roomId);
+    mutationFn: ({ data }: CreateQuestionParams) =>
+      questionsService.create(data),
+    onMutate: async ({ data, tempId }) => {
+      const queryKey = QUESTIONS_QUERY_KEY(data.roomId);
 
       await queryClient.cancelQueries({ queryKey });
 
       const previousQuestions =
         queryClient.getQueryData<QuestionQueryData[]>(queryKey) ?? [];
 
+      const id = tempId ?? crypto.randomUUID();
+
+      const existing = previousQuestions.find((q) => q.id === id);
+
       const newQuestion: QuestionQueryData = {
-        id: crypto.randomUUID(),
-        roomId,
-        question,
+        id,
+        roomId: data.roomId,
+        question: data.question,
         answer: null,
         createdAt: new Date().toISOString(),
         _isGeneratingAnswer: true,
+        _hasError: false,
       };
 
-      queryClient.setQueryData<QuestionQueryData[]>(
-        ["questions", roomId],
-        [newQuestion, ...previousQuestions]
-      );
+      if (existing) {
+        queryClient.setQueryData<QuestionQueryData[]>(
+          queryKey,
+          previousQuestions.map((question) =>
+            question.id === id ? newQuestion : question
+          )
+        );
+      } else {
+        queryClient.setQueryData<QuestionQueryData[]>(queryKey, [
+          newQuestion,
+          ...previousQuestions,
+        ]);
+      }
 
       return { newQuestion, previousQuestions, queryKey };
     },
@@ -57,6 +77,7 @@ export function useCreateQuestion() {
               roomId: data.roomId,
               answer: data.answer,
               _isGeneratingAnswer: false,
+              _hasError: false,
             };
           }
 
@@ -65,12 +86,37 @@ export function useCreateQuestion() {
       });
     },
     onError: (_error, _data, context) => {
-      if (context?.previousQuestions) {
-        queryClient.setQueryData<QuestionQueryData[]>(
-          context.queryKey,
-          context.previousQuestions
-        );
+      if (!context) {
+        return;
       }
+
+      queryClient.setQueryData<QuestionQueryData[]>(
+        context?.queryKey,
+        (old) => {
+          if (!old) {
+            return old;
+          }
+
+          return old.map((room) => {
+            if (room.id === context?.newQuestion.id) {
+              return {
+                ...context.newQuestion,
+                _isCreating: false,
+                _hasError: true,
+              };
+            }
+
+            return room;
+          });
+        }
+      );
+
+      // if (context?.previousQuestions) {
+      //   queryClient.setQueryData<QuestionQueryData[]>(
+      //     context.queryKey,
+      //     context.previousQuestions
+      //   );
+      // }
     },
   });
 
