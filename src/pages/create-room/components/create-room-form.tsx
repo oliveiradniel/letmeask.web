@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,7 +14,6 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import type { Room } from "@/entities/room";
 import { useCreateRoom } from "@/hooks/use-create-room";
 import {
   type CreateRoomData,
@@ -23,8 +21,6 @@ import {
 } from "@/schemas/create-room-schema";
 
 export function CreateRoomForm() {
-  const queryClient = useQueryClient();
-
   const { createRoom, isCreatingRoom } = useCreateRoom();
 
   const [errorName, setErrorName] = useState<string | null>(null);
@@ -40,15 +36,10 @@ export function CreateRoomForm() {
   const formDisabled = !form.formState.isValid || isCreatingRoom;
 
   const handleSubmit = form.handleSubmit(async (data: CreateRoomData) => {
+    form.reset();
+
     try {
-      const createdRoom = await createRoom(data);
-
-      queryClient.setQueryData<Room[]>(["rooms"], (old) => [
-        createdRoom,
-        ...(old ?? []),
-      ]);
-
-      form.reset();
+      await createRoom({ data });
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.message;

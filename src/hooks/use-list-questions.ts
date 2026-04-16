@@ -5,7 +5,7 @@ import { makeQuestionsService } from "@/core/factories/make-questions-service";
 import type { Question } from "@/entities/question";
 
 export const QUESTIONS_QUERY_KEY = (roomId: string) => {
-  return ["questions", roomId];
+  return ["question", "list", roomId];
 };
 
 export type QuestionQueryData = Question & { _isGeneratingAnswer?: boolean };

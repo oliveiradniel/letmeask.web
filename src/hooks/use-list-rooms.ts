@@ -3,9 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { makeRoomsService } from "@/core/factories/make-rooms-service";
 import type { Room } from "@/entities/room";
 
-export const ROOMS_QUERY_KEY = ["rooms"];
+export const ROOMS_QUERY_KEY = ["room", "list"];
 
-export type RoomQueryData = Room & { _isCreating: boolean };
+export type RoomQueryData = Room & { _isCreating: boolean; _hasError: boolean };
 
 export function useListRooms() {
   const roomsService = makeRoomsService();

@@ -1,4 +1,5 @@
 import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "sonner";
@@ -19,6 +20,7 @@ export function App() {
       </BrowserRouter>
 
       <Toaster />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
