@@ -3,6 +3,8 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Toaster } from "sonner";
+import { ErrorBoundary } from "./components/error-boundary";
+import { ErrorPage } from "./components/error-page";
 import { queryClient } from "./core/query-client";
 import { CreateRoom } from "./pages/create-room";
 import { RecordRoomAudio } from "./pages/record-room-audio";
@@ -10,17 +12,19 @@ import { RoomDetails } from "./pages/room-details";
 
 export function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<CreateRoom />} index />
-          <Route element={<RoomDetails />} path="/room/:id" />
-          <Route element={<RecordRoomAudio />} path="/room/:id/audio" />
-        </Routes>
-      </BrowserRouter>
+    <ErrorBoundary fallback={<ErrorPage />}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<CreateRoom />} index />
+            <Route element={<RoomDetails />} path="/room/:id" />
+            <Route element={<RecordRoomAudio />} path="/room/:id/audio" />
+          </Routes>
+        </BrowserRouter>
 
-      <Toaster />
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+        <Toaster />
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
