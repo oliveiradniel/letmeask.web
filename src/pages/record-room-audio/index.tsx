@@ -6,7 +6,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { useUploadAudio } from "@/hooks/use-upload-audio";
 import { AudioSchema } from "@/schemas/audio-schema";
 
-export function RecordRoomAudio() {
+export default function RecordRoomAudio() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 

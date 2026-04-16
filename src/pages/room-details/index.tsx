@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { QuestionForm } from "./components/question-form";
 import { QuestionList } from "./components/question-list";
 
-export function RoomDetails() {
+export default function RoomDetails() {
   const params = useParams<{ id: string }>();
   const location = useLocation();
 
